@@ -44,7 +44,7 @@
 	if(!(stat & (BROKEN|NOPOWER|FORCEDISABLE)) && occupant)
 		set_light(light_range_on, light_power_on)
 	else
-		set_light(0)
+		kill_light()
 
 /obj/machinery/sleeper/New()
 	..()
@@ -471,7 +471,7 @@
 		return
 	go_out(ejector = usr)
 	add_fingerprint(usr)
-	set_light(0)
+	kill_light()
 	return
 
 /obj/machinery/sleeper/verb/move_inside()
@@ -579,7 +579,7 @@
 /obj/machinery/sleeper/mancrowave/update_icon()
 	if(!occupant)
 		icon_state = "[base_icon]_open"
-		set_light(0)
+		kill_light()
 		return
 	if(emagged)
 		light_color = LIGHT_COLOR_RED
@@ -591,7 +591,7 @@
 	if(on)
 		set_light(light_range_on, light_power_on)
 	else
-		set_light(0)
+		kill_light()
 
 /obj/machinery/sleeper/mancrowave/emag_act(mob/user)
 	if(!emagged)

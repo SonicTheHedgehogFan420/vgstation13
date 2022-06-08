@@ -59,6 +59,7 @@ Why is FLOAT_PLANE added to a bunch of these?
 
 /*
 	from stddef.dm, planes & layers built into byond.
+
 	FLOAT_LAYER = -1
 	AREA_LAYER = 1
 	TURF_LAYER = 2
@@ -72,6 +73,7 @@ Why is FLOAT_PLANE added to a bunch of these?
 	TOPDOWN_LAYER = 10000
 	BACKGROUND_LAYER = 20000
 	------
+
 	FLOAT_PLANE = -32767
 */
 #define BELOW_PLATING_PLANE 			(-6 + FLOAT_PLANE)
@@ -213,17 +215,22 @@ Why is FLOAT_PLANE added to a bunch of these?
 #define FAKE_CAMERA_PLANE		(13)
 
 #define LIGHTING_PLANE 			(14)	// Don't put anything other than lighting_overlays in there please
-	#define LIGHTING_LAYER 				0
+	#define SELF_VISION_LAYER 		   -1
+	#define LIGHTBULB_LAYER 			0
+	#define LIGHTING_LAYER 				2
+	#define ABOVE_LIGHTING_LAYER 		3
+	#define HIGHEST_LIGHTING_LAYER		3.5
+	#define ANTI_GLOW_PASS_LAYER		4
+	#define ROID_TURF_LIGHT_LAYER 		5
+
 
 #define ABOVE_LIGHTING_PLANE	(15)
-	#define ABOVE_LIGHTING_LAYER		0
 	#define SUPERMATTER_WALL_LAYER 		1
 	#define SUPER_PORTAL_LAYER			2
 	#define NARSIE_GLOW 				3
-
-
 	#define MAPPING_AREA_LAYER			999	// Why isn't this a plane exactly?
 
+#define LIGHT_SOURCE_PLANE	16	// For Spiders to be able to click them despite being blinded
 #define OPEN_OVERLAY_PLANE	(16 + FLOAT_PLANE) // This one won't behave either
 
 #define BASE_PLANE 				(17 + FLOAT_PLANE)		//  this is where darkness is! see "how planes work" - needs SEE_BLACKNESS or SEE_PIXEL (see blackness is better for ss13)
@@ -337,6 +344,18 @@ var/noir_master = list(new /obj/abstract/screen/plane_master/noir_master(),new /
 	screen |= ghost_planemaster
 	ghost_planemaster_dummy = new /obj/abstract/screen/plane_master/ghost_planemaster_dummy
 	screen |= ghost_planemaster_dummy
+
+
+// OVERDARKNESS PLANEMASTER
+// Used to apply darkness over lights that the player isn't supposed to see when the lighting master is set to BLEND_ADD
+/obj/abstract/screen/plane_master/overdark_planemaster
+	plane = 0
+
+/obj/abstract/screen/plane_master/overdark_planemaster_target
+	appearance_flags = 0
+	plane = ABOVE_LIGHTING_PLANE
+	mouse_opacity = 0
+	screen_loc = "CENTER,CENTER"
 
 
 // DARKNESS PLANEMASTER

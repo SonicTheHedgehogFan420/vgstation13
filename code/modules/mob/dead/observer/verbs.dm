@@ -240,9 +240,11 @@
 
 	if (see_invisible == SEE_INVISIBLE_OBSERVER_NOLIGHTING)
 		see_invisible = SEE_INVISIBLE_OBSERVER
+		dark_plane.alphas -= "toggle_darkness"
 	else
 		see_invisible = SEE_INVISIBLE_OBSERVER_NOLIGHTING
-
+		dark_plane.alphas["toggle_darkness"] = 255
+	check_dark_vision()
 
 /mob/dead/observer/verb/analyze_air()
 	set name = "Analyze Air"
@@ -548,7 +550,9 @@
 	var/response = alert(src, "Are you -sure- you want to become a space hobo?","Are you sure you want to ramble?","Yeah!","Nope!")
 	if(response != "Yeah!" || !src.key)
 		return  //Hit the wrong key...again.
-	
+
+	//find a viable mouse candidate
+
 	var/mob/living/carbon/human/hobo = new(pick(hobostart))
 	hobo.key = src.key
 	hobo.set_species(pick(200;"Human",50;"Vox",50;"Insectoid",25;"Diona",25;"Grey",1;"Tajaran",10;"Unathi"))
